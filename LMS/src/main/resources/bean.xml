@@ -3,22 +3,18 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <![CDATA[
     <!--告知spring在创建容器时要扫描的包，配置所需要的标签不是在beans的约束中，而是一个名称context名称空间和约束中-->
     <context:component-scan base-package="com.lms"></context:component-scan>
-
-    <!--配置QueryRunner-->
-    <bean id="runner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype">
-        <!--注入数据源-->
-        <constructor-arg name="ds" ref="dataSource"></constructor-arg>
-    </bean>
 
     <!--配置数据源-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -27,9 +23,40 @@
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/lms?serverTimezone=GMT"></property>
     </bean>
-    ]]>
 
-    <bean id="proxyBookService" factory-bean="beanFactory" factory-method="getBookService"></bean>
+    <!--配置QueryRunner-->
+    <bean id="runner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype">
+        <!--注入数据源-->
+        <!--当我们使用自定义的ConnectionUtils时，默认的数据源就不需要注入到runner中了，应该注入到ConnectionUtils中
+        <constructor-arg name="ds" ref="dataSource"></constructor-arg>
+        -->
+    </bean>
+
+    <!--使用注解配置代理工厂类
+    <bean id="proxyBookService" factory-bean="beanFactory" factory-method="getBookService"/>
     <bean id="beanFactory" class="com.lms.factory.BeanFactory"></bean>
+    -->
 
+    <!-- spring中基于XML的声明式事务控制配置步骤
+
+    #####在这个过程中，我们注释掉了TransactionManager和BeanFactory类#####
+
+    1.配置事务管理器
+    2.配置事务的通知
+        此时我们需要导入事务的约束 tx的名称空间和约束，同时也需要AOP的
+        使用tx:Advice标签配置事务通知
+            属性：
+                id:唯一标志
+                transaction-manager:给事务通知提供一个事务管理器引用\
+     3.配置AOP中的通用切入点表达式
+     4.建立事务通知和切入点表达式的对应关系
+     5.配置事务的属性 tx:Advice标签的内部
+     -->
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--基于注解的声明式事务管理器配置-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

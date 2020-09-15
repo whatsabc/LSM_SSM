@@ -23,7 +23,6 @@ public class BookDaoImpl implements BookDao {
     @Resource(name="connectionUtils")
     private ConnectionUtils connectionUtils;
 
-
     @Override
     public Book selectByISBN(String ISBN) {
         //QueryRunner runner = new QueryRunner(c3p0Utils.getDataSource());

@@ -1,5 +1,6 @@
 package com.lms.config;
 
+import com.lms.service.BookService;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +30,7 @@ import java.beans.PropertyVetoException;
  *
  */
 @Configuration
-@ComponentScan(basePackages = "com.lms")
+@ComponentScan(basePackages = "com.lms")//类似于xml的包扫描
 public class SpringConfiguration {
 
     /**
@@ -42,6 +43,7 @@ public class SpringConfiguration {
     public QueryRunner createQueryRunner(DataSource dataSource){
         return new QueryRunner(dataSource);
     }
+
 
     /**
      * 创建数据源对象

@@ -1,11 +1,7 @@
 package com.lms.Test;
 
 import com.lms.config.SpringConfiguration;
-import com.lms.dao.BookDao;
-import com.lms.dao.RecordDao;
-import com.lms.dao.UserDao;
 import com.lms.service.BookService;
-import com.lms.service.serviceimpl.BookServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -50,16 +46,33 @@ public class Main {
 
 
         /**
-         * 测试代码
+         * 测试代码，如果不加事务控制，借书会发生异常
          */
         //bookService.BookBorrow(100000,"123456789");
 
         /**
          * 不使用xml配置数据库和数据源时
          */
-        ApplicationContext applicationContext=new AnnotationConfigApplicationContext(SpringConfiguration.class);
-        BookService bookService=(BookService) applicationContext.getBean("BookServiceImpl");
-        bookService.BookBorrow(100000,"123456789");
+        //ApplicationContext applicationContext=new AnnotationConfigApplicationContext(SpringConfiguration.class);
+        //BookService bookService=(BookService) applicationContext.getBean("BookServiceImpl");
+        //bookService.BookBorrowProxy(100000,"123456789");
 
+        /**
+         * 用于测试代理类实现的事务控制
+         */
+        //ApplicationContext applicationContext=new AnnotationConfigApplicationContext(SpringConfiguration.class);
+        //BookService proxyBookService=(BookService) applicationContext.getBean("proxyBookService");
+        //proxyBookService.ProxyBookBorrow(100000,"123456789");
+
+        /**
+         * 用于测试SpringAOP实现的事务控制
+         */
+        //ApplicationContext applicationContext=new AnnotationConfigApplicationContext(SpringConfiguration.class);
+        //BookService springAOPBookService=(BookService) applicationContext.getBean("BookServiceImpl");//没有经过代理的方法
+        //springAOPBookService.springAOPBookBorrow(100000,"123456789");
+
+        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("bean.xml");
+        BookService springAPIBookService=(BookService) applicationContext.getBean("BookServiceImpl");//没有经过代理的方法
+        springAPIBookService.springAPIBookBorrow(100000,"123456789");
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -83,6 +84,7 @@ import java.util.Date;
  *    作用：用于指定初始化方法
  */
 @Component(value="BookServiceImpl")
+@Transactional
 public class BookServiceImpl implements BookService {
 
     /**
@@ -111,22 +113,24 @@ public class BookServiceImpl implements BookService {
     private RecordDao recordDao;
 
     /**
-     * 我们使用代理对象后就可以注释掉下面的事务管理器了
-     */
+     * ####当我们不使用任何代理，我们就需要手动注入事务控制器，然后在代码中直接编码进行事务控制
+
     @Resource(name="transactionManager")
     private TransactionManager transactionManager;//事务控制器
+    */
 
     /**
-     * 下面这个结束操作是我们手动实现的事务控制(非代理模式)
+     * 下面这个结束操作是我们非代理模式和自己的事务控制实现的事务控制
+     * 可以看到很麻烦，所以我们先抽象公共部分进行代理模式简化
      * 用到了以下几个类
      * ---ConnectionUtils
      * ---TransactionManager
      * @param userId
      * @param ISBN
      * @return
-     */
-
-    public String BookBorrow(int userId, String ISBN) {
+     *
+    @Override
+    public String bookBorrow(int userId, String ISBN) {
         try{
             transactionManager.beginTransaction();//开始事务
 
@@ -164,9 +168,100 @@ public class BookServiceImpl implements BookService {
         }
         return null;
     }
+    */
+
+    /**
+     * 这个类是我们通过代理模式和自己的事务控制实现的事务控制
+     * 用到了以下几个类
+     * ---BeanFactory
+     *   ---ConnectionUtils
+     *   ---TransactionManager
+     * @param userId
+     * @param ISBN
+     * @return
 
     @Override
-    public String BookBorrowProxy(int userId, String ISBN) {
+    public String proxyBookBorrow(int userId, String ISBN) {
+
+        User user=userDao.selectById(userId);
+        //查询读者情况
+        if(user.getUser_borrnum()>=user.getUser_maxnum()){
+            return "读者借书超过上限";
+        }
+        //查询图书情况
+        Book book=bookDao.selectByISBN(ISBN);
+        if(book.getBook_surplus()<=0){
+            return "该图书库存为0";
+        }
+        //更改读者已经借阅数量
+        user.setUser_borrnum(user.getUser_borrnum()+1);
+        userDao.updateBorrowNum(user);
+        int a=10/0;//在这里制造一个异常，来体现事务的重要性
+        //更改图书剩余数量
+        book.setBook_surplus(book.getBook_surplus()-1);
+        bookDao.updateSurplus(book);
+        //生成借阅表
+        Calendar c= Calendar.getInstance();
+        Date loanDate=Calendar.getInstance().getTime();
+        c.add(Calendar.DAY_OF_MONTH,30);
+        Date dueDate=c.getTime();
+        recordDao.insert(new Record(loanDate,dueDate,0.1f,userId,ISBN));
+
+        return "借阅成功";
+    }
+    */
+
+    /**
+     * 这个类是我们通过AOP和自己的事务控制实现的事务控制
+     * 用到了以下几个类
+     *  ---ConnectionUtils
+     *  ---TransactionManager
+     * @param userId
+     * @param ISBN
+     * @return
+
+    @Override
+    @Transactional
+    public String springAOPBookBorrow(int userId, String ISBN) {
+
+        User user=userDao.selectById(userId);
+        //查询读者情况
+        if(user.getUser_borrnum()>=user.getUser_maxnum()){
+            return "读者借书超过上限";
+        }
+        //查询图书情况
+        Book book=bookDao.selectByISBN(ISBN);
+        if(book.getBook_surplus()<=0){
+            return "该图书库存为0";
+        }
+        //更改读者已经借阅数量
+        user.setUser_borrnum(user.getUser_borrnum()+1);
+        userDao.updateBorrowNum(user);
+        int a=10/0;//在这里制造一个异常，来体现事务的重要性
+        //更改图书剩余数量
+        book.setBook_surplus(book.getBook_surplus()-1);
+        bookDao.updateSurplus(book);
+        //生成借阅表
+        Calendar c= Calendar.getInstance();
+        Date loanDate=Calendar.getInstance().getTime();
+        c.add(Calendar.DAY_OF_MONTH,30);
+        Date dueDate=c.getTime();
+        recordDao.insert(new Record(loanDate,dueDate,0.1f,userId,ISBN));
+
+        return "借阅成功";
+    }
+    */
+
+    /**
+     * 这个类是我们通过AOP和SpringAPI实现的事务控制
+     * 用到了以下几个类
+     *  ---ConnectionUtils
+     * @param userId
+     * @param ISBN
+     * @return
+     */
+    @Override
+    public String springAPIBookBorrow(int userId, String ISBN) {
 
         User user=userDao.selectById(userId);
         //查询读者情况
