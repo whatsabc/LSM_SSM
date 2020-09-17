@@ -1,10 +1,14 @@
 package com.lms.Test;
 
 import com.lms.config.SpringConfiguration;
+import com.lms.dao.UserDao;
+import com.lms.dao.daoimpl.UserDaoImpl;
 import com.lms.service.BookService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import javax.annotation.Resource;
 
 public class Main {
     public static void main(String[] args){
@@ -55,22 +59,38 @@ public class Main {
          */
         //ApplicationContext applicationContext=new AnnotationConfigApplicationContext(SpringConfiguration.class);
         //BookService bookService=(BookService) applicationContext.getBean("BookServiceImpl");
-        //bookService.BookBorrowProxy(100000,"123456789");
+        //bookService.proxyBookBorrow(100000,"123456789");
 
         /**
          * 用于测试代理类实现的事务控制
+         * #### 使用到的类：
+         * ---ConnectionUtils
+         * ---BeanFactory
+         * ---TransactionManager
+         * ---QueryRunner(jar)
          */
         //ApplicationContext applicationContext=new AnnotationConfigApplicationContext(SpringConfiguration.class);
         //BookService proxyBookService=(BookService) applicationContext.getBean("proxyBookService");
-        //proxyBookService.ProxyBookBorrow(100000,"123456789");
+        //proxyBookService.proxyBookBorrow(100000,"123456789");
 
         /**
          * 用于测试SpringAOP实现的事务控制
+         * #### 使用到的类：
+         * ---ConnectionUtils
+         * ---QueryRunner(jar)
          */
         //ApplicationContext applicationContext=new AnnotationConfigApplicationContext(SpringConfiguration.class);
         //BookService springAOPBookService=(BookService) applicationContext.getBean("BookServiceImpl");//没有经过代理的方法
         //springAOPBookService.springAOPBookBorrow(100000,"123456789");
 
+        /**
+         * 用于测试SpringAPI实现的事务控制
+         * #### 需要注意的是，在使用SpringAPI实现的事务控制时，最好使用JdbcTemplate，
+         * 如果使用自己实现的连接管理Connection时，容易发生资源释放和连接的多线程问题
+         *
+         * #### 使用到的类
+         * ---JdbcTemplate(jar)
+         */
         ApplicationContext applicationContext=new ClassPathXmlApplicationContext("bean.xml");
         BookService springAPIBookService=(BookService) applicationContext.getBean("BookServiceImpl");//没有经过代理的方法
         springAPIBookService.springAPIBookBorrow(100000,"123456789");

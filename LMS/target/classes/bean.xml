@@ -16,13 +16,26 @@
     <!--告知spring在创建容器时要扫描的包，配置所需要的标签不是在beans的约束中，而是一个名称context名称空间和约束中-->
     <context:component-scan base-package="com.lms"></context:component-scan>
 
-    <!--配置数据源-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--配置Spring内置数据源 和jdbcTemplate使用-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="username" value="root"></property>
+        <property name="password" value="mysql2020"></property>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/lms?serverTimezone=GMT"></property>
+    </bean>
+
+    <!--配置C3P0数据源
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="user" value="root"></property>
         <property name="password" value="mysql2020"></property>
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/lms?serverTimezone=GMT"></property>
     </bean>
+    -->
 
     <!--配置QueryRunner-->
     <bean id="runner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype">

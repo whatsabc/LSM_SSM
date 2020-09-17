@@ -12,6 +12,7 @@ import java.sql.SQLException;
  * 手动实现事务控制器
  * #### 去掉所有AOP注解，在BeanFactory中手动也实现了AOP的原理达到了相同的效果
  * #### Spring自己就有事务管理器，最后的测试中我们使用了Spring自带的事务管理器
+ *
  * 事务管理相关的工具类，包含了开启事务，开启事务，提交事务，回滚事务和释放连接
  * @author Jianshu
  * @time 20200914
@@ -19,6 +20,7 @@ import java.sql.SQLException;
 
 /**
  * 后续要调试SpringAPI提供的事务控制，把手动实现的先注释掉
+
 @Repository(value="transactionManager")
 @Aspect
 @EnableAspectJAutoProxy

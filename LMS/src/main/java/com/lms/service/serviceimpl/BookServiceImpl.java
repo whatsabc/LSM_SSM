@@ -174,8 +174,8 @@ public class BookServiceImpl implements BookService {
      * 这个类是我们通过代理模式和自己的事务控制实现的事务控制
      * 用到了以下几个类
      * ---BeanFactory
-     *   ---ConnectionUtils
-     *   ---TransactionManager
+     * ---ConnectionUtils
+     * ---TransactionManager
      * @param userId
      * @param ISBN
      * @return
@@ -219,7 +219,6 @@ public class BookServiceImpl implements BookService {
      * @param userId
      * @param ISBN
      * @return
-
     @Override
     @Transactional
     public String springAOPBookBorrow(int userId, String ISBN) {
