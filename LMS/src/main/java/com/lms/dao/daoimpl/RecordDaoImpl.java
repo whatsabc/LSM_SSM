@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.sql.SQLException;
 
-@Repository(value="RecordDao")
+@Repository(value="recordDao")
 //@Scope("singleton")
 public class RecordDaoImpl implements RecordDao {
 
@@ -42,7 +42,7 @@ public class RecordDaoImpl implements RecordDao {
     }
     */
 
-    @Autowired
+    //@Autowired
     JdbcTemplate jdbcTemplate;
 
     @Override

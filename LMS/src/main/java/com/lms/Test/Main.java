@@ -91,8 +91,8 @@ public class Main {
          * #### 使用到的类
          * ---JdbcTemplate(jar)
          */
-        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("bean.xml");
-        BookService springAPIBookService=(BookService) applicationContext.getBean("BookServiceImpl");//没有经过代理的方法
+        ApplicationContext applicationContext=new ClassPathXmlApplicationContext("spring-service.xml");
+        BookService springAPIBookService=(BookService) applicationContext.getBean("bookServiceImpl");//没有经过代理的方法
         springAPIBookService.springAPIBookBorrow(100000,"123456789");
     }
 }

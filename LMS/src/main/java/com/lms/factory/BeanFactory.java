@@ -29,7 +29,7 @@ import java.util.Date;
 @Component(value="beanFactory")
 public class BeanFactory {
 
-    @Resource(name="BookServiceImpl")
+    @Resource(name="bookServiceImpl")
     private BookService bookService;
     @Resource(name="transactionManager")
     private TransactionManager transactionManager;

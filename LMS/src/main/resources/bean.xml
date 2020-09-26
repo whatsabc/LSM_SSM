@@ -72,4 +72,5 @@
 
     <!--基于注解的声明式事务管理器配置-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
 </beans>

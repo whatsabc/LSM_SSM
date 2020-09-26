@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -83,7 +84,7 @@ import java.util.Date;
  *  PostConstruct
  *    作用：用于指定初始化方法
  */
-@Component(value="BookServiceImpl")
+@Service(value="bookServiceImpl")
 @Transactional
 public class BookServiceImpl implements BookService {
 
@@ -103,13 +104,13 @@ public class BookServiceImpl implements BookService {
     /**
      * 在进行注入数据时，我们可以使用两种方式来进行注入（AutoWrite和Resource）
      */
-    @Resource(name="UserDao")
+    @Resource(name="userDao")
     private UserDao userDao;
 
-    @Resource(name="BookDao")
+    @Resource(name="bookDao")
     private BookDao bookDao;
 
-    @Resource(name="RecordDao")
+    @Resource(name="recordDao")
     private RecordDao recordDao;
 
     /**
@@ -275,7 +276,7 @@ public class BookServiceImpl implements BookService {
         //更改读者已经借阅数量
         user.setUser_borrnum(user.getUser_borrnum()+1);
         userDao.updateBorrowNum(user);
-        int a=10/0;//在这里制造一个异常，来体现事务的重要性
+        //int a=10/0;//在这里制造一个异常，来体现事务的重要性
         //更改图书剩余数量
         book.setBook_surplus(book.getBook_surplus()-1);
         bookDao.updateSurplus(book);

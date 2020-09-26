@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository(value="BookDao")
+@Repository(value="bookDao")
 public class BookDaoImpl implements BookDao {
 
     /**
@@ -50,7 +50,7 @@ public class BookDaoImpl implements BookDao {
     }
     */
 
-    @Autowired
+    //@Autowired
     JdbcTemplate jdbcTemplate;
 
     @Override

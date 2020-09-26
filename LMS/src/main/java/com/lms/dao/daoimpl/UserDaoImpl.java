@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.util.List;
 
-@Repository(value="UserDao")
+@Repository(value="userDao")
 public class UserDaoImpl implements UserDao{
 
     /**
@@ -60,7 +60,7 @@ public class UserDaoImpl implements UserDao{
     }
     */
 
-    @Autowired
+    //@Autowired
     JdbcTemplate jdbcTemplate;
 
     @Override
