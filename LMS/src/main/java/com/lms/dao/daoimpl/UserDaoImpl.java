@@ -60,7 +60,7 @@ public class UserDaoImpl implements UserDao{
     }
     */
 
-    //@Autowired
+    @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Override

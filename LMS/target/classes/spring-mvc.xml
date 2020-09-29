@@ -11,6 +11,7 @@
 	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
     <context:component-scan base-package="com.lms">
+        <!--配置要扫描的包-->
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
@@ -22,4 +23,6 @@
 
     <!--开启SpringMVC框架注解的支持-->
     <mvc:annotation-driven/>
+    <!-- 静态资源访问处理 -->
+    <mvc:default-servlet-handler/>
 </beans>

@@ -42,7 +42,7 @@ public class RecordDaoImpl implements RecordDao {
     }
     */
 
-    //@Autowired
+    @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Override

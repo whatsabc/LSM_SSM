@@ -4,6 +4,13 @@
 
 <web-app>
 
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:spring-service.xml</param-value>
+  </context-param>
+
+
+  <!--配置解决中文乱码的过滤器-->
   <filter>
     <filter-name>characterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -17,6 +24,14 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+
+  <!--配置Spring的监听器，默认只加载WEB-INF目录下的applicationContext.xml配置文件-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+
+  <!--配置前端控制器-->
   <servlet>
     <servlet-name>dispatcherServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -30,9 +45,5 @@
     <servlet-name>dispatcherServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-
-  <welcome-file-list>
-    <welcome-file>index</welcome-file>
-  </welcome-file-list>
 
 </web-app>

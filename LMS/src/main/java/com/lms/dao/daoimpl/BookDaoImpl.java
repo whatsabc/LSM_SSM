@@ -50,7 +50,7 @@ public class BookDaoImpl implements BookDao {
     }
     */
 
-    //@Autowired
+    @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Override
