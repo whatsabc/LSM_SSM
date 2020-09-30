@@ -27,7 +27,6 @@ public class BookController {
 
     @RequestMapping(path="/borrowBook")
     public String borrowBook(){
-        System.out.println("表示层，查询所有的账户信息");
         bookService.springAPIBookBorrow(100000,"123456789");
         return "success";
     }

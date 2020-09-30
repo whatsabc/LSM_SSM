@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>欢迎访问图书馆借阅系统，请登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+    <!--引入 Bootstrap-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--引入 JQuery-->
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        /**
+         * 登录操作
+         */
+        $(document).ready(function(){
+            $("#login").click(function(){
+                alert("userId="+document.getElementById('input-userId').value
+                    +"&password="+document.getElementById('input-password').value
+                    +"&rememberMe="+document.getElementById('rememberMe').checked)
+                $.ajax({
+                    type:'POST',
+                    dataType:'text',
+                    url:'user/login',
+                    data:"userId="+document.getElementById('input-userId').value
+                        +"&password="+document.getElementById('input-password').value
+                        +"&rememberMe="+document.getElementById('rememberMe').checked,
+                    contentType: 'application/x-www-form-urlencoded',
+                    success:function (success){
+                        if(success==="0"){
+                            alert("用户名或密码错误！");
+                            window.location.reload();
+                        }
+                        else if(success==="-1"){
+                            alert("用户名不存在！");
+                        }
+                    }
+                })
+            });
+        })
+
+        /**
+         * 跳转到注册页面
+         */
+        $(document).ready(function() {
+            $("#sign-in").click(function () {
+                window.location.replace("sign-in.html");
+            });
+        })
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="jumbotron">
+                <h1>
+                    登录界面
+                </h1>
+                <p>
+                    demo
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-large" href="#">Learn more</a>
+                </p>
+            </div>
+            <div class="row clearfix">
+                <div class="col-md-2 column">
+                </div>
+                <div class="col-md-8 column">
+                    <div class="row clearfix">
+                        <div class="col-md-3 column">
+                        </div>
+                        <div class="col-md-6 column">
+                            <form role="form" method="post">
+                                <div class="form-group">
+                                    <label for="input-userId">用户id</label><input type="number" class="form-control" id="input-userId" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-password">密码</label><input type="password" class="form-control" id="input-password" />
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="rememberMe"/>记住我</label>
+                                </div>
+                                <button type="button" class="btn btn-default" id="login">登 录</button>
+                                <button type="button" class="btn btn-default" id="sign-in">注 册</button>
+                            </form>
+                        </div>
+                        <div class="col-md-3 column">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 column">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,6 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="LMS:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/LMS_war_exploded</output-path>
+    <output-path>$PROJECT_DIR$/target/LMS</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>LMS</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -26,6 +33,9 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-web:5.2.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.2.8.RELEASE" />
         </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/LMS/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="LMS/web/Web" />
     </root>
