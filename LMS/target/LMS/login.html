@@ -9,29 +9,42 @@
     <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript">
         /**
-         * 登录操作
+         * 登录
          */
         $(document).ready(function(){
             $("#login").click(function(){
-                alert("userId="+document.getElementById('input-userId').value
-                    +"&password="+document.getElementById('input-password').value
-                    +"&rememberMe="+document.getElementById('rememberMe').checked)
+                var userId=document.getElementById('input-userId').value;
+                var password=document.getElementById('input-password').value;
+                var rememberMe=document.getElementById('rememberMe').checked;
                 $.ajax({
                     type:'POST',
-                    dataType:'text',
+                    dataType:'json',
                     url:'user/login',
-                    data:"userId="+document.getElementById('input-userId').value
-                        +"&password="+document.getElementById('input-password').value
-                        +"&rememberMe="+document.getElementById('rememberMe').checked,
-                    contentType: 'application/x-www-form-urlencoded',
-                    success:function (success){
-                        if(success==="0"){
+                    data:{"userId":userId, "password":password, "rememberMe":rememberMe},
+                    success:function (data){
+                        var status=data["status"];
+                        if(status==="true"){
+                            //进行重定向
+                            location.href="user/index";
+                        }
+                        else if(status==="error"){
                             alert("用户名或密码错误！");
                             window.location.reload();
                         }
-                        else if(success==="-1"){
+                        else if(status==="null"){
                             alert("用户名不存在！");
+                            window.location.reload();
                         }
+                    },
+                    error:function (xhr, textStatus, errorThrown){
+                        alert("进入error---");
+                        alert("状态码："+xhr.status);
+                        alert("状态:"+xhr.readyState);//当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
+                        alert("错误信息:"+xhr.statusText );
+                        alert("返回响应信息："+xhr.responseText );//这里是详细的信息
+                        alert("请求状态："+textStatus);
+                        alert(errorThrown);
+                        alert("请求失败");
                     }
                 })
             });
@@ -56,10 +69,10 @@
                     登录界面
                 </h1>
                 <p>
-                    demo
+                    进入个人首页前请先登录
                 </p>
                 <p>
-                    <a class="btn btn-primary btn-large" href="#">Learn more</a>
+                    <a class="btn btn-primary btn-large" href="#">---</a>
                 </p>
             </div>
             <div class="row clearfix">

@@ -30,14 +30,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int loginVerify(String userId, String password) {
+    public String loginVerify(String userId, String password) {
         User user=userDao.selectById(Integer.valueOf(userId));
-        if(user==null){
-            return -1;
-        }
-        else if(user.getUser_pwd().equals(password)){
-            return 1;
-        }
-        return 0;
+        if(user==null)
+            return "null";
+        else if(user.getUser_pwd().equals(password))
+            return "true";
+        return "error";//用户名或账户错误
     }
 }

@@ -1,5 +1,5 @@
 package com.lms.service;
 
 public interface UserService {
-    int loginVerify(String userId,String password);
+    String loginVerify(String userId,String password);
 }
