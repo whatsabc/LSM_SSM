@@ -1,0 +1,55 @@
+use lms;
+CREATE TABLE BOOKTYPE
+(
+	booktype_num CHAR(20) PRIMARY KEY,
+	booktype_name VARCHAR(100)
+);
+
+CREATE TABLE BOOK
+(
+	book_isbn CHAR(40) PRIMARY KEY,
+	book_name VARCHAR(100),
+	book_pubdate DATE,
+	book_author VARCHAR(100),
+	book_press VARCHAR(50),
+	book_price FLOAT,
+	book_sum INT,
+	book_surplus INT,
+	booktype_num CHAR(20) NOT NULL,
+	FOREIGN KEY (booktype_num) REFERENCES BOOKTYPE(booktype_num)
+);
+
+CREATE TABLE USER
+(
+	user_uid INT AUTO_INCREMENT PRIMARY KEY,
+	user_name VARCHAR(20) NOT NULL,
+	user_sex CHAR(2) CHECK(user_sex IN('男','女')),
+	user_idcard CHAR(20) NOT NULL,
+	user_tel CHAR(20) NOT NULL,
+	user_pwd CHAR(20) NOT NULL,
+	user_maxnum INT,
+	user_borrnum INT
+);
+
+CREATE TABLE ADMIN
+(
+	adm_uid INT PRIMARY KEY,
+	adm_name VARCHAR(20),
+	adm_tel CHAR(20) NOT NULL,
+ 	adm_idcard CHAR(20) NOT NULL,
+ 	adm_sex CHAR(2) CHECK(adm_sex IN('男','女')),
+ 	adm_pwd CHAR(20) NOT NULL
+);
+
+CREATE TABLE RECORD
+(
+	record_id INT AUTO_INCREMENT PRIMARY KEY,
+	record_loandate DATE NOT NULL,
+ 	record_duedate DATE NOT NULL,
+	record_returndate DATE,
+ 	record_muclt FLOAT,
+ 	user_uid INT,
+ 	book_isbn CHAR(40),
+ 	FOREIGN KEY (user_uid) REFERENCES USER(user_uid),
+ 	FOREIGN KEY (book_isbn) REFERENCES BOOK(book_isbn)
+); 
