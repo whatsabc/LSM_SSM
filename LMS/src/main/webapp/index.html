@@ -3,7 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>主页</title>
+
+    <!--引入 Bootstrap-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--引入 JQuery-->
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        /**
+         * 借书
+         */
+        $(document).ready(function(){
+            $("#borrow-book").click(function(){
+                $.ajax({
+                    type:'POST',
+                    dataType:'json',
+                    url:'book/borrowBook',
+                    data:{},
+                    success:function (data){
+                        if(data==="success"){
+                            alert("success");
+                        }
+                    },
+                    error:function (xhr, textStatus, errorThrown){
+                        alert("进入error---");
+                        alert("状态码："+xhr.status);
+                        alert("状态:"+xhr.readyState);//当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
+                        alert("错误信息:"+xhr.statusText );
+                        alert("返回响应信息："+xhr.responseText );//这里是详细的信息
+                        alert("请求状态："+textStatus);
+                        alert(errorThrown);
+                        alert("请求失败");
+                    }
+                })
+            });
+        })
+    </script>
     <a>图书馆主页，必须要登陆才能看到</a>
+    <button type="button" class="btn btn-default" id="borrow-book">借书</button>
 </head>
 <body>
 

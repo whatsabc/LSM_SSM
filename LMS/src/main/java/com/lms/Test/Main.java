@@ -4,6 +4,8 @@ import com.lms.config.SpringConfiguration;
 import com.lms.dao.UserDao;
 import com.lms.dao.daoimpl.UserDaoImpl;
 import com.lms.service.BookService;
+import com.lms.service.serviceimpl.BookServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
